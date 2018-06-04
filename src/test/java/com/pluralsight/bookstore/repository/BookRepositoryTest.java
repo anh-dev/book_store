@@ -2,6 +2,9 @@ package com.pluralsight.bookstore.repository;
 
 import com.pluralsight.bookstore.model.Book;
 import com.pluralsight.bookstore.model.Language;
+import com.pluralsight.bookstore.util.IsbnGenerator;
+import com.pluralsight.bookstore.util.NumberGenerator;
+import com.pluralsight.bookstore.util.TextUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
@@ -15,9 +18,7 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 public class BookRepositoryTest {
@@ -46,12 +47,14 @@ public class BookRepositoryTest {
     @InSequence(3)
     public void shouldCreateABook() {
         // Creates a book
-        Book book = new Book("title", "description", 20.7f,  "isbn", new Date(), 235, "http://blabla.com", Language.ENGLISH);
+        Book book = new Book("a   title", "description", 20.7f,  "isbn", new Date(), 235, "http://blabla.com", Language.ENGLISH);
         book = bookRepository.create(book);
         // Checks the created book
         assertNotNull(book);
         assertNotNull(book.getId());
         bookId = book.getId();
+
+        assertTrue(book.getIsbn().startsWith("13"));
     }
 
     @Test
@@ -61,7 +64,7 @@ public class BookRepositoryTest {
         Book bookFound = bookRepository.find(bookId);
         // Checks the found book
         assertNotNull(bookFound.getId());
-        assertEquals("title", bookFound.getTitle());
+        assertEquals("a title", bookFound.getTitle());
     }
 
     @Test
@@ -110,6 +113,9 @@ public class BookRepositoryTest {
                 .addClass(BookRepository.class)
                 .addClass(Book.class)
                 .addClass(Language.class)
+                .addClass(TextUtil.class)
+                .addClass(NumberGenerator.class)
+                .addClass(IsbnGenerator.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsManifestResource("META-INF/test-persistence.xml", "persistence.xml");
     }
