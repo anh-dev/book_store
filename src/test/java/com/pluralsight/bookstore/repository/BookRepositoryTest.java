@@ -92,6 +92,18 @@ public class BookRepositoryTest {
         assertEquals(0, bookRepository.findAll().size());
     }
 
+    @Test(expected = Exception.class)
+    public void createInvalidBook() {
+        Book book = new Book(null, "description", 20.7f,  "isbn", new Date(), 235, "http://blabla.com", Language.ENGLISH);
+        bookRepository.create(book);
+
+    }
+    @Test(expected = Exception.class)
+    public void findWithInvalidId(){
+        bookRepository.find(null);
+    }
+
+
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
