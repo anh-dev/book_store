@@ -4,7 +4,6 @@ import com.pluralsight.bookstore.model.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;

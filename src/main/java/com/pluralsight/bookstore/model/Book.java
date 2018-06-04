@@ -104,6 +104,21 @@ public class Book {
         this.language = language;
     }
 
+    public Book(){
+
+    }
+
+    public Book(String title, String description, Float unitCost, String isbn, Date publicationDate, Integer nbOfPages, String imageUrl, Language language) {
+        this.title = title;
+        this.description = description;
+        this.unitCost = unitCost;
+        this.isbn = isbn;
+        this.publicationDate = publicationDate;
+        this.nbOfPages = nbOfPages;
+        this.imageUrl = imageUrl;
+        this.language = language;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
